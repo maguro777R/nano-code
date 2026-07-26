@@ -11,6 +11,7 @@ export type ToolCall = {
   toolCallId: string;
   name: string;
   args: Record<string, unknown>;
+  // needsApproval?: boolean; // 第5章で定義
 };
 
 // 第3章で定義：会話に追加されるツール実行結果の型
