@@ -48,6 +48,7 @@ async function writeFileExecute(args: {
 export const writeFile = {
   name: "writeFile",
   description: "指定されたパスにファイルを作成または上書きする。ディレクトリが存在しない場合は自動的に作成される。",
+  needsApproval: true, // ファイル書き込みは承認が必要
   parameters: {
     type: "object",
     properties: {

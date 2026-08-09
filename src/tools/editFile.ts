@@ -58,6 +58,7 @@ async function editFileExecute(args: {
 export const editFile = {
   name: "editFile",
   description: "ファイルの一部を編集する。oldTextで指定した箇所をnewTextに置き換える。oldTextが複数見つかる場合はエラーを返すため、一意に特定できる範囲を指定すること。ファイル全体を読み書きするよりトークン消費が少ない。",
+  needsApproval: true, // ファイル編集は承認が必要
   parameters: {
     type: "object",
     properties: {
