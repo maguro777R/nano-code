@@ -2,6 +2,7 @@ import { readFile } from '../src/tools/readFile';
 import { writeFile } from '../src/tools/writeFile';
 import { execCommand } from '../src/tools/execCommand';
 import { generateText } from '../src/core/generate-text';
+import { createOpenAI } from '../src/providers/openai';
 import type { LanguageModel, Message, Tool } from '../src/types';
 
 const defaultTools: Tool[] = [
@@ -176,3 +177,42 @@ export async function agentLoop(
         }
     }
 }
+
+// サンプルを実行する
+async function main(): Promise<void> {
+    const openai = createOpenAI();
+    const model = openai(process.env.OPENAI_MODEL_ID ?? 'gpt-5-mini');
+
+    console.log('\n--- simpleChat ---');
+    const simpleChatResult = await simpleChat(
+        model,
+        'TypeScript の特徴を 1 つ、簡潔に説明してください。'
+    );
+    console.log('[ simpleChat 結果 ]', simpleChatResult);
+
+    console.log('\n--- chatLoop ---');
+    const chatLoopResults = await chatLoop(
+        model,
+        '2 + 2 の答えと、その理由を簡潔に説明してください。'
+    );
+    chatLoopResults.forEach((transcript, index) => {
+        console.log(`[ chatLoop ${index + 1} 回目 ]`, transcript);
+    });
+
+    console.log('\n--- singleCycleAgent ---');
+    await singleCycleAgent(
+        model,
+        'test.txt を読み込み、内容を確認してください。'
+    );
+
+    console.log('\n--- agentLoop ---');
+    await agentLoop(
+        model,
+        'test.txt を読み込み、内容を一文で説明してください。'
+    );
+}
+
+main().catch((error) => {
+    console.error('[ 実行エラー ]', error);
+    process.exitCode = 1;
+});
