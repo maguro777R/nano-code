@@ -2,9 +2,9 @@
 export type Tool = {
   name: string;
   description: string;
-  needsApproval: boolean; // 承認が必要か
   parameters: Record<string, unknown>; // JSON Schema相当（型チェックは実行時）
   execute: (args: Record<string, unknown>) => Promise<string>;
+  needsApproval?: boolean; // 第5章で定義
 };
 
 // 第3章で定義：LLMが発行するツール呼び出しの型
