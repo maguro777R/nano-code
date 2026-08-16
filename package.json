@@ -6,6 +6,9 @@
   "devDependencies": {
     "@types/bun": "latest"
   },
+  "scripts": {
+    "agent": "bun run bin/cli.ts"
+  },
   "peerDependencies": {
     "typescript": "^5"
   },
