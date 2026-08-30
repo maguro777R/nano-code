@@ -5,6 +5,7 @@ FROM oven/bun:1.3
 # 必須ツールのみ（git, jq, curl, nano）
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
+    openssh-client \
     jq \
     curl \
     ca-certificates \

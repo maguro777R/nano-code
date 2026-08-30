@@ -6,5 +6,8 @@
   "mounts": [
     "source=${localWorkspaceFolder},target=/nano-code,type=bind"
   ],
-  "postCreateCommand": "if [ ! -f package.json ]; then bun init -y; fi && bun install || true"
+  "postCreateCommand": "if [ ! -f package.json ]; then bun init -y; fi && bun install || true",
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  }
 }
