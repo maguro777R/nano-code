@@ -1,3 +1,4 @@
+import { parseArgs } from 'util';
 import * as path from 'path';
 import { Agent } from '../src/core/agent';
 import { loadInstructions } from '../src/core/prompt';
@@ -9,6 +10,16 @@ import { editFile } from '../src/tools/editFile';
 import { execCommand } from '../src/tools/execCommand';
 
 async function main() {
+    const { values } = parseArgs({
+        args: process.argv.slice(2),
+        options: { 
+            'yolo': { type: 'boolean', default: false},
+        },
+        allowPositionals: true,
+    });
+
+    const yoloMode = values['yolo'];
+
     const args = process.argv.slice(2);
 
     if (args.length === 0) {
@@ -40,7 +51,9 @@ async function main() {
             editFile,
             execCommand,
         },
-        maxSteps: 15,
+        maxSteps: 20,
+        // --yolo時は自動承認
+        approvalFunc: yoloMode ? async () => true : undefined,
     });
 
     console.log('エージェント起動\n');
