@@ -1,7 +1,35 @@
-on: [workflow_dispatch]
+name: Nano Code
+
+on:
+  workflow_dispatch:
+    inputs:
+      task:
+        description: 'Nano Codeに実行させるタスク'
+        required: false
+        default: 'これはテストです'
+
+permissions: {}
+
 jobs:
-  run:
+  nano-code:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
-      - run: bun run agent "hello"
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install
+      - name: Git ユーザーを設定
+        run: |
+          git config user.name "nano-code[bot]"
+          git config user.email "nano-code[bot]@users.noreply.github.com"
+      - name: Nano Codeを実行
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LLM_PROVIDER: ${{ vars.LLM_PROVIDER }}
+          LLM_MODEL: ${{ vars.LLM_MODEL }}
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          # 手動実行では inputs.task を実行指示として使う。Issue 経由では固定の信頼済み指示を使い、Issue 本文は ISSUE_TEXT に参照情報として分離する。
+          ISSUE_BODY: ${{ inputs.task }}
+        run: bun run agent --yolo
