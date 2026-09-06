@@ -7,8 +7,6 @@ on:
         description: 'エージェントに実行させるタスク'
         required: false
         default: 'calculator.ts の関数にテストを追加してください'
-        env:
-          ISSUE_BODY: ${{ inputs.task }}
   issues:
     types: [opened]
 
